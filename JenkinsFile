@@ -1,29 +1,32 @@
 pipeline {
     agent any
-
-    stages {
-        stage('Initialize Terraform') {
-            steps {
-                dir('terraform') {
-                    terraformWrapper([
-                        terraformInstallation: 'Terraform 1.5.2'
-                    ]) {
-                        sh 'terraform init'
-                    }
-                }
+    tools {
+         terraform 'Terraform'
+    }
+    stages{
+        stage('Git Checkout'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/DHRUVOPS360/tf-gcp.git']])
             }
         }
-
-        stage('Run Terraform') {
-            steps {
-                dir('terraform') {
-                    terraformWrapper([
-                        terraformInstallation: 'Terraform 1.5.2'
-                    ]) {
-                        sh 'terraform plan' // Replace with your desired Terraform commands
-                        sh 'terraform apply -auto-approve'
-                    }
-                }
+        stage('Terraform Init'){
+            steps{
+                sh 'terraform init'
+            }
+        }
+        stage('Terraform Plan'){
+            steps{
+                sh 'terraform plan'
+            }
+        }
+        stage('Terraform Apply'){
+            steps{
+                sh 'terraform apply -auto-approve'
+            }
+        }
+        stage('Terraform Destroy'){
+            steps{
+                sh 'terraform destroy -auto-approve'
             }
         }
     }

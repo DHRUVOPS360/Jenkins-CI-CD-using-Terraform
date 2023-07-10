@@ -5,17 +5,16 @@ pipeline {
         stage('Install Terraform') {
             steps {
                 sh 'curl -LO https://releases.hashicorp.com/terraform/0.14.10/terraform_0.14.10_linux_amd64.zip'
-                sh 'sudo apt-get update'
-                sh 'sudo apt-get install -y unzip' // Install unzip utility
                 sh 'unzip terraform_0.14.10_linux_amd64.zip'
-                sh 'sudo mv terraform /usr/local/bin/'
+                sh 'mkdir -p $HOME/bin'
+                sh 'mv terraform $HOME/bin/'
             }
         }
 
         stage('Initialize Terraform') {
             steps {
                 dir('terraform') {
-                    sh 'terraform init'
+                    sh '$HOME/bin/terraform init'
                 }
             }
         }
@@ -23,8 +22,8 @@ pipeline {
         stage('Run Terraform') {
             steps {
                 dir('terraform') {
-                    sh 'terraform plan' // Replace with your desired Terraform commands
-                    sh 'terraform apply -auto-approve'
+                    sh '$HOME/bin/terraform plan' // Replace with your desired Terraform commands
+                    sh '$HOME/bin/terraform apply'
                 }
             }
         }

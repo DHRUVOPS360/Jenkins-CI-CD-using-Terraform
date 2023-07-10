@@ -5,7 +5,12 @@ terraform {
       version = "4.58.0"
     }
   }
+backend "gcs" {
+    bucket  = "dhruv-jenkins-server-backend"
+    prefix  = "terraform-jenkins-backend"
+  }
 }
+
 
 provider "google" {
   project     = "engineer-cloud-nprod"

@@ -1,7 +1,8 @@
 pipeline {
     agent any
 
-    stage('Install Terraform') {
+    stages {
+        stage('Install Terraform') {
             steps {
                 sh 'curl -LO https://releases.hashicorp.com/terraform/0.14.10/terraform_0.14.10_linux_amd64.zip'
                 sh 'sudo apt-get update'

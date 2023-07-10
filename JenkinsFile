@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-
+    stages {
         stage('Install Terraform') {
             steps {
                 sh 'curl -LO https://releases.hashicorp.com/terraform/0.14.10/terraform_0.14.10_linux_amd64.zip'
@@ -12,7 +12,7 @@ pipeline {
 
         stage('Initialize Terraform') {
             steps {
-                dir('terraform-directory') {
+                dir('terraform') {
                     sh 'terraform init'
                 }
             }
@@ -20,7 +20,7 @@ pipeline {
 
         stage('Run Terraform') {
             steps {
-                dir('terraform-directory') {
+                dir('terraform') {
                     sh 'terraform plan' // Replace with your desired Terraform commands
                     sh 'terraform apply -auto-approve'
                 }

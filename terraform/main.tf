@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "auto-expire" {
-  name          = "engineer-cloud-nprod-bucket"
+  name          = "demo-bucket" //Change the name as per your choice
   location      = "US"
   force_destroy = true
 
@@ -23,7 +23,7 @@ resource "google_storage_bucket" "auto-expire" {
 }
 
 resource "google_compute_instance" "default" {
-  name         = "engineer-cloud-nprod-instance"
+  name         = "my-compute-instance"
   machine_type = "n1-standard-1"
   zone         = "us-central1-a"
 
@@ -44,8 +44,8 @@ resource "google_compute_instance" "default" {
   }
 
   network_interface {
-  network = "projects/engineer-cloud-nprod/global/networks/default"
-  subnetwork = "projects/engineer-cloud-nprod/regions/us-central1/subnetworks/default"
+  network = "projects/<project-id>/global/networks/default"
+  subnetwork = "projects/<project-id>/regions/us-central1/subnetworks/default"
   access_config {
       // ...
   }
@@ -57,4 +57,3 @@ resource "google_compute_instance" "default" {
 
   metadata_startup_script = "echo hi > /test.txt"
 }
-
